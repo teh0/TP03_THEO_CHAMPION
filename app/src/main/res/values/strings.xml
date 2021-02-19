@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">TP03_THEO_CHAMPION</string>
+    <string name="delete_confirm">Voulez-vous supprimer ce voisin ?</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
 </resources>
