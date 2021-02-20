@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Connected neighbors</string>
+    <string name="delete_confirm">Do you want delete this neighbor ?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="title_neighbor_list">Neigbors list</string>
+    <string name="title_neighbor_add">New neighbor</string>
+    <string name="validation_required">This field is required</string>
+    <string name="validation_phone">Enter valid phone number :  0X XX XX XX XX XX</string>
+    <string name="validation_web_url">Enter valid URL</string>
+    <string name="validation_max_charac_30">30 characters max</string>
+</resources>

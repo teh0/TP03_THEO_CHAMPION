@@ -20,6 +20,6 @@ class NeighborRepository: BaseRepository<Neighbor>() {
     }
 
     override fun update(model: Neighbor) {
-        TODO("Not yet implemented")
+
     }
 }

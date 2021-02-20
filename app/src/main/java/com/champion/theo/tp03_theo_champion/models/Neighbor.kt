@@ -1,7 +1,7 @@
 package com.champion.theo.tp03_theo_champion.models
 
 data class Neighbor(
-    val id: Long,
+    val id: String,
     val name: String,
     val avatarUrl: String,
     val address: String,

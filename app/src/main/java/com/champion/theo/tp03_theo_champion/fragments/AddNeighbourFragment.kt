@@ -12,6 +12,9 @@ import com.basgeekball.awesomevalidation.AwesomeValidation as Validation
 import com.champion.theo.tp03_theo_champion.R
 import com.champion.theo.tp03_theo_champion.contracts.NavigationListener
 import com.champion.theo.tp03_theo_champion.databinding.AddNeighborBinding
+import com.champion.theo.tp03_theo_champion.models.Neighbor
+import com.champion.theo.tp03_theo_champion.repositories.NeighborRepository
+import java.util.*
 
 class AddNeighbourFragment: Fragment() {
     private var _binding: AddNeighborBinding? = null
@@ -54,7 +57,7 @@ class AddNeighbourFragment: Fragment() {
         formValidation.addValidation(activity, binding.addressLayoutText.id, RegexTemplate.NOT_EMPTY, R.string.validation_web_url)
         // About
         formValidation.addValidation(activity, binding.aboutLayoutText.id, RegexTemplate.NOT_EMPTY, R.string.validation_web_url)
-        formValidation.addValidation(activity, binding.aboutLayoutText.id, "/^[a-z]{0,30}\$/", R.string.validation_max_charac_30)
+        //formValidation.addValidation(activity, binding.aboutLayoutText.id, "/^[a-z]{0,30}\$/", R.string.validation_max_charac_30)
 
 
 
@@ -64,6 +67,23 @@ class AddNeighbourFragment: Fragment() {
     private fun onClickSubmitButton() {
         binding.submitButton.setOnClickListener(View.OnClickListener {
             handleFromValidation()
+
+            val newNeigbor = Neighbor(
+                UUID.randomUUID().toString(),
+                binding.nameLayoutText.text.toString(),
+                binding.imageLayoutText.text.toString(),
+                binding.addressLayoutText.text.toString(),
+                binding.phoneLayoutText.text.toString(),
+                binding.aboutLayoutText.text.toString(),
+                false,
+                binding.websiteLayoutText.text.toString()
+            )
+            NeighborRepository.getInstance().create(newNeigbor)
+            print("After created neighbor")
+            (activity as? NavigationListener)?.let {
+                it.showFragment(ListNeigborsFragment())
+            }
+
         })
     }
 
