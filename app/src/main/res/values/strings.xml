@@ -3,4 +3,11 @@
     <string name="delete_confirm">Voulez-vous supprimer ce voisin ?</string>
     <string name="yes">Oui</string>
     <string name="no">Non</string>
+    <string name="title_neighbor_list">Liste des voisins</string>
+    <string name="title_neighbor_add">Nouveau voisin</string>
+
+    <string name="validation_required">Ce champ est requis</string>
+    <string name="validation_phone">Rentrez un numero valide : 0X XX XX XX XX XX</string>
+    <string name="validation_web_url">Rentrer une URL valide</string>
+    <string name="validation_max_charac_30">30 charactères max</string>
 </resources>
