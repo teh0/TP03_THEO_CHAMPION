@@ -2,6 +2,7 @@ package com.champion.theo.tp03_theo_champion.adapters
 
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,10 +15,9 @@ import com.champion.theo.tp03_theo_champion.databinding.NeighborItemBinding
 import com.champion.theo.tp03_theo_champion.models.Neighbor
 import com.champion.theo.tp03_theo_champion.repositories.NeighborRepository
 
-class ListNeighborsAdapter(items: MutableList<Neighbor>, eventHandler: EventCrudable<Neighbor>) : RecyclerView.Adapter<ListNeighborsAdapter.ViewHolder>() {
+class ListNeighborsAdapter(private val eventHandler: EventCrudable<Neighbor>) : RecyclerView.Adapter<ListNeighborsAdapter.ViewHolder>() {
 
-    private val mNeighbours: List<Neighbor> = items
-    private val eventHandler = eventHandler
+    private var mNeighbours: List<Neighbor> = ArrayList<Neighbor>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = NeighborItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -34,7 +34,6 @@ class ListNeighborsAdapter(items: MutableList<Neighbor>, eventHandler: EventCrud
         return mNeighbours.size
     }
 
-
     private fun fillViewHolderData(holder: ViewHolder, position: Int) {
         val neighbour: Neighbor = mNeighbours[position]
         holder.binding.itemListName.text = neighbour.name
@@ -50,7 +49,6 @@ class ListNeighborsAdapter(items: MutableList<Neighbor>, eventHandler: EventCrud
     private fun onClickDeleteButton(holder: ViewHolder, position: Int) {
         val deletedNeighbor = this.mNeighbours[position]
         holder.binding.itemListDeleteButton.setOnClickListener(View.OnClickListener {
-            println(deletedNeighbor.name)
             val builder = AlertDialog.Builder(holder.binding.root.context)
             builder.setMessage(R.string.delete_confirm)
                 .setCancelable(false)
@@ -64,6 +62,11 @@ class ListNeighborsAdapter(items: MutableList<Neighbor>, eventHandler: EventCrud
             val alertDialog = builder.create()
             alertDialog.show()
         })
+    }
+
+    fun setNeighbours(neighbours: List<Neighbor>) {
+        this.mNeighbours = neighbours
+        notifyDataSetChanged()
     }
 
     class ViewHolder(var binding: NeighborItemBinding): RecyclerView.ViewHolder(binding.root) {

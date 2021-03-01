@@ -12,13 +12,21 @@ import com.basgeekball.awesomevalidation.AwesomeValidation as Validation
 import com.champion.theo.tp03_theo_champion.R
 import com.champion.theo.tp03_theo_champion.contracts.NavigationListener
 import com.champion.theo.tp03_theo_champion.databinding.AddNeighborBinding
+import com.champion.theo.tp03_theo_champion.di.DI
 import com.champion.theo.tp03_theo_champion.models.Neighbor
 import com.champion.theo.tp03_theo_champion.repositories.NeighborRepository
 import java.util.*
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 class AddNeighbourFragment: Fragment() {
+    /**
+     * View binding
+     */
     private var _binding: AddNeighborBinding? = null
     private val binding get() = _binding!!
+
+    private val executors: ExecutorService = Executors.newSingleThreadExecutor()
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -40,6 +48,9 @@ class AddNeighbourFragment: Fragment() {
         onClickSubmitButton()
     }
 
+    /**
+     * Form validation handler
+     */
     private fun handleFromValidation() {
         val formValidation = Validation(ValidationStyle.BASIC)
         // Image
@@ -59,17 +70,18 @@ class AddNeighbourFragment: Fragment() {
         formValidation.addValidation(activity, binding.aboutLayoutText.id, RegexTemplate.NOT_EMPTY, R.string.validation_web_url)
         //formValidation.addValidation(activity, binding.aboutLayoutText.id, "/^[a-z]{0,30}\$/", R.string.validation_max_charac_30)
 
-
-
         formValidation.validate()
     }
 
+    /**
+     * Click event handler for submit button
+     */
     private fun onClickSubmitButton() {
         binding.submitButton.setOnClickListener(View.OnClickListener {
             handleFromValidation()
 
             val newNeigbor = Neighbor(
-                UUID.randomUUID().toString(),
+                "30",
                 binding.nameLayoutText.text.toString(),
                 binding.imageLayoutText.text.toString(),
                 binding.addressLayoutText.text.toString(),
@@ -78,10 +90,12 @@ class AddNeighbourFragment: Fragment() {
                 false,
                 binding.websiteLayoutText.text.toString()
             )
-            NeighborRepository.getInstance().create(newNeigbor)
-            print("After created neighbor")
-            (activity as? NavigationListener)?.let {
-                it.showFragment(ListNeigborsFragment())
+
+            executors.execute {
+                DI.repository.create(newNeigbor)
+                (activity as? NavigationListener)?.let {
+                    it.showFragment(ListNeigborsFragment())
+                }
             }
 
         })
